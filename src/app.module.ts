@@ -32,16 +32,15 @@ export class AppController {
       useFactory: (configService: ConfigService) => {
         const dbType = configService.get<string>('DB_TYPE') || 'sqlite';
 
-        if (dbType === 'postgres') {
+       if (dbType === 'postgres') {
           return {
             type: 'postgres',
-            host: configService.get<string>('DB_HOST') || 'localhost',
-            port: configService.get<number>('DB_PORT') || 5432,
-            username: configService.get<string>('DB_USERNAME') || 'postgres',
-            password: configService.get<string>('DB_PASSWORD') || 'postgres',
-            database: configService.get<string>('DB_NAME') || 'booking_platform',
+        
+            url: configService.get<string>('DATABASE_URL'),
+        
             entities: [User, Service, Booking],
-            synchronize: true, // Auto-create tables in dev. For migrations, we use standard flows.
+        
+            synchronize: true,
           };
         }
 
